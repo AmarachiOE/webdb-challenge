@@ -25,12 +25,10 @@ actionsRouter.post("/", (req, res) => {
     !action.notes ||
     !action.project_id
   ) {
-    res
-      .status(400)
-      .json({
-        err:
-          "You must include an action with a project_id, name, description, and notes."
-      });
+    res.status(400).json({
+      err:
+        "You must include an action with a project_id, name, description, and notes."
+    });
   } else {
     actionsDb
       .addAction(action)

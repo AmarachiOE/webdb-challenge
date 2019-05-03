@@ -12,7 +12,6 @@ function getAllProjects() {
 }
 
 // =========== getProject(id) returns a project and it's actions
-
 async function getProject(id) {
   const project = await db("projects")
     .select("*")
