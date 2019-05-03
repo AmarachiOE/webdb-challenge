@@ -16,21 +16,31 @@ projectsRouter.get("/", (req, res) => {
 });
 
 // =============== GET PROJECT BY ID
-// projectsRouter.get("/:id", (req, res) => {
-//     const projectId = req.params.id;
-//     projectsDb.getProject(projectId).then().catch()
-// })
+projectsRouter.get("/:id", (req, res) => {
+  const projectId = req.params.id;
+  projectsDb
+    .getProject(projectId)
+    .then(project => {
+      if (project) {
+        res.status(200).json(project);
+      } else {
+        res.status(404).json({ error: "This project could not be found." });
+      }
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ error: "This project's information could not be retrieved." });
+    });
+});
 
 // =============== POST PROJECT
 projectsRouter.post("/", (req, res) => {
   const project = req.body;
   if (!project || !project.name || !project.description) {
-    res
-      .status(400)
-      .json({
-        error:
-          "You must include a project with a name and description."
-      });
+    res.status(400).json({
+      error: "You must include a project with a name and description."
+    });
   } else {
     projectsDb
       .addProject(project)
