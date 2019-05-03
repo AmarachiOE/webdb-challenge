@@ -22,6 +22,27 @@ projectsRouter.get("/", (req, res) => {
 // })
 
 // =============== POST PROJECT
-
+projectsRouter.post("/", (req, res) => {
+  const project = req.body;
+  if (!project || !project.name || !project.description) {
+    res
+      .status(400)
+      .json({
+        error:
+          "You must include a project with a name and description."
+      });
+  } else {
+    projectsDb
+      .addProject(project)
+      .then(project => {
+        res.status(200).json(project);
+      })
+      .catch(err => {
+        res.status(500).json({
+          error: "There was an error while saving the project to the database"
+        });
+      });
+  }
+});
 
 module.exports = projectsRouter;
